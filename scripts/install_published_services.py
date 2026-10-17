@@ -42,7 +42,8 @@ def install(base, source, output):
         for table in ('flight_patterns','observed_routes'):
             if not db.execute("SELECT 1 FROM baseline.sqlite_master WHERE type='table' AND name=?",(table,)).fetchone():
                 continue
-            if db.execute('SELECT count(*) FROM (SELECT * FROM baseline.'+table+' EXCEPT SELECT * FROM main.'+table+')').fetchone()[0]:raise ValueError('Existing aviation rows changed')
+            # Table identifiers come only from the two literal names above.
+            if db.execute('SELECT count(*) FROM (SELECT * FROM baseline.'+table+' EXCEPT SELECT * FROM main.'+table+')').fetchone()[0]:raise ValueError('Existing aviation rows changed')  # nosec B608
         if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchall():raise ValueError('Database failed integrity checks')
         report=dict(source_report=data['report'],added_services=count-before,total_services=count,source_sha256=digest(source),baseline_sha256=checksum,lost_or_changed_legacy_rows=0)
     except Exception:

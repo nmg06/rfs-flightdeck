@@ -9,9 +9,16 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from scripts.enrich_observed_routes import digest
 
 
-def distinct(db, schema='main', *, timed=False):
-    condition='WHERE n_obs>=3 AND duration_min IS NOT NULL' if timed else ''
-    return db.execute('SELECT count(*) FROM (SELECT DISTINCT airline,callsign,origin_id,destination_id FROM '+schema+'.flight_patterns '+condition+')').fetchone()[0]
+def distinct(db, *, timed=False):
+    if timed:
+        return db.execute('''SELECT count(*) FROM (
+            SELECT DISTINCT airline,callsign,origin_id,destination_id
+            FROM main.flight_patterns WHERE n_obs>=3 AND duration_min IS NOT NULL
+        )''').fetchone()[0]
+    return db.execute('''SELECT count(*) FROM (
+        SELECT DISTINCT airline,callsign,origin_id,destination_id
+        FROM main.flight_patterns
+    )''').fetchone()[0]
 
 
 def merge(base, candidates, output):
@@ -34,7 +41,8 @@ def merge(base, candidates, output):
             # Frozen OurAirports IDs must still identify the same airports.
             if db.execute('SELECT count(*) FROM incoming.airports i JOIN main.airports a ON a.id=i.id WHERE a.icao<>i.icao').fetchone()[0]:raise ValueError('Conflicting airport IDs')
             for table in ('airports','airlines','aircraft_types','runways'):
-                db.execute('INSERT OR IGNORE INTO main.'+table+' SELECT * FROM incoming.'+table)
+                # Table identifiers come only from the literal tuple above, never source metadata.
+                db.execute('INSERT OR IGNORE INTO main.'+table+' SELECT * FROM incoming.'+table)  # nosec B608
             db.execute('INSERT OR IGNORE INTO sources VALUES (?,?,?,?,?)',(source_id,'MrAirspace / adsb.lol '+quarter,
                 'https://github.com/MrAirspace/aircraft-flight-schedules/releases/tag/'+('aircraft_flight_logs_' if quarter.startswith('2024') else 'aircraft_flight_schedules_')+quarter[:4]+'_quarter'+quarter[-1],
                 'ODbL-1.0','MrAirspace / adsb.lol, ODbL 1.0. Historical observed-flight profiles for '+quarter+'; not current scheduled services.'))
@@ -63,7 +71,8 @@ def merge(base, candidates, output):
         db.execute('INSERT INTO build_info VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',('historical_enrichment_2026_10_12',json.dumps({k:v for k,v in report.items() if k!='sources'},sort_keys=True)))
         db.commit();db.execute('ATTACH DATABASE ? AS baseline',(str(base),))
         for table in ('flight_patterns','recent_observations','observed_routes','airports','airlines','aircraft_types','runways','sources'):
-            lost=db.execute('SELECT count(*) FROM (SELECT * FROM baseline.'+table+' EXCEPT SELECT * FROM main.'+table+')').fetchone()[0]
+            # Table identifiers come only from the literal tuple above.
+            lost=db.execute('SELECT count(*) FROM (SELECT * FROM baseline.'+table+' EXCEPT SELECT * FROM main.'+table+')').fetchone()[0]  # nosec B608
             if lost:raise ValueError('Existing rows lost or changed in '+table)
         if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchall():raise ValueError('Integrity checks failed')
         report['lost_or_changed_legacy_rows']=0;report['integrity']='ok'

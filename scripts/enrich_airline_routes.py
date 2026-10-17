@@ -122,10 +122,12 @@ def enrich(base, archive, manifest, output, airline):
         db.execute('ATTACH DATABASE ? AS baseline', (str(base),))
         preserved = {}
         for table in ('airports', 'runways', 'airlines', 'aircraft_types', 'flight_patterns', 'recent_observations', 'sources') + (('observed_routes',) if has_routes else ()):
-            lost = db.execute('SELECT count(*) FROM (SELECT * FROM baseline.' + table + ' EXCEPT SELECT * FROM main.' + table + ')').fetchone()[0]
+            # Table identifiers come only from the literal tuple above, never imported data.
+            lost = db.execute('SELECT count(*) FROM (SELECT * FROM baseline.' + table + ' EXCEPT SELECT * FROM main.' + table + ')').fetchone()[0]  # nosec B608
             if lost:
                 raise ValueError('Existing rows changed or lost in ' + table)
-            preserved[table] = db.execute('SELECT count(*) FROM baseline.' + table).fetchone()[0]
+            # This uses the same fixed table identifier checked by the loop.
+            preserved[table] = db.execute('SELECT count(*) FROM baseline.' + table).fetchone()[0]  # nosec B608
         integrity = db.execute('PRAGMA integrity_check').fetchone()[0]
         if integrity != 'ok' or db.execute('PRAGMA foreign_key_check').fetchall():
             raise ValueError('Database integrity check failed')

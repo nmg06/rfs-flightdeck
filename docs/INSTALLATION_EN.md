@@ -25,7 +25,7 @@ still outstanding. [Updates and transferring data](UPDATES_AND_TRANSFER.md).
 
 ## Windows
 
-1. Extract both the artifact ZIP and the Windows package inside it into a new folder.
+1. Download the Windows ZIP above and extract it completely into a new folder.
 2. Open **RFSFlightdeck → RFSATCMessageMaker.exe**.
 3. Keep **_internal**, **finder-data** and the other files beside the EXE.
 4. Create a desktop shortcut to that EXE if you want quick access.
@@ -38,7 +38,7 @@ to migrate. Keep the old version and backup.
 
 ## Android
 
-1. Extract the artifact ZIP to get **app-debug.apk**, or use the APK supplied by the owner.
+1. Download **RFSFlightdeck-Android-0.4.4-debug.apk** using the Android link above. You can download it directly on your phone; no ZIP extraction is needed.
 2. Put it in **Downloads** on your phone, using USB file transfer if needed.
 3. Open **Files → Downloads**, tap the APK and allow installation from that source if prompted.
 4. Tap **Install**, then **Open**. Later, launch **RFS Flightdeck** from your app list.

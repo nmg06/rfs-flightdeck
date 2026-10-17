@@ -35,7 +35,8 @@ def download(entry, directory, *, workers=6, chunk_bytes=4*1024*1024):
         for attempt in range(3):
             try:
                 req=urllib.request.Request(url,headers={'User-Agent':'RFS-Flightdeck-build-data','Range':f'bytes={start}-{end}'})
-                with urllib.request.urlopen(req,timeout=35) as response:
+                # The complete initial URL must equal the trusted HTTPS release URL above.
+                with urllib.request.urlopen(req,timeout=35) as response:  # nosec B310
                     if response.status!=206 or response.headers.get('Content-Range')!=f'bytes {start}-{end}/{size}':
                         raise ValueError('Source does not honour exact byte range')
                     block=response.read(end-start+2)

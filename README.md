@@ -4,21 +4,28 @@ Ancien nom : RFS ATC Message Maker. Messages Discord, Flight Finder local,
 RFS Fuel Helper et aperçu cartographique pour Real Flight Simulator.
 Les fonctions principales Windows et Android fonctionnent sans compte ni Internet.
 
-**Vous voulez installer l'application ?** Il suffit de télécharger le ZIP Windows
-ou l'APK Android : Python n'est pas nécessaire. Le [guide pas à pas](docs/INSTALLATION.md)
-explique les boutons de téléchargement, l'installation, le premier vol et les
-solutions aux problèmes fréquents. Aucune version iPhone installable actuellement.
+## Télécharger Flightdeck 0.4.4 — préversion
 
-**[Téléchargement et installation Windows / Android / état iPhone](docs/INSTALLATION.md)**
+| Votre appareil | Téléchargement direct |
+|---|---|
+| Android 7 ou plus, ARM64 | **[Télécharger l’APK Android](https://github.com/nmg06/rfs-flightdeck/releases/download/flightdeck-0.4.4/RFSFlightdeck-Android-0.4.4-debug.apk)** |
+| PC Windows 10/11, 64 bits | **[Télécharger le ZIP Windows](https://github.com/nmg06/rfs-flightdeck/releases/download/flightdeck-0.4.4/RFSFlightdeck-Windows-0.4.4-x64.zip)** |
+
+Aucun compte GitHub nécessaire, et Python n’est pas à installer. Utilisez ces liens, ou les fichiers
+APK/ZIP dans la [préversion 0.4.4](https://github.com/nmg06/rfs-flightdeck/releases/tag/flightdeck-0.4.4).
+Le bouton **Code > Download ZIP** et les fichiers **Source code** contiennent le
+code du projet, pas l’application prête à utiliser. Aucune version iPhone n’est livrée.
+
+Le **[guide d’installation pas à pas](docs/INSTALLATION.md)** explique comment
+installer, mettre à jour sans perdre ses données et préparer son premier vol.
+[Installation guide in English](docs/INSTALLATION_EN.md).
+Sur Android, prévoyez au moins **1 Go libre** pour l’installation et la base locale.
+
+Il s’agit d’une **préversion** : l’APK utilise une signature de test. Les essais
+sur téléphone physique et la signature Android définitive restent à terminer.
 
 **[Tutoriel, 30 questions fréquentes et copie libre](docs/HELP.md)** — aide
 consultable dans l’application, que l’on peut passer et retrouver ensuite.
-
-La préversion **0.4.4** est disponible dans les [téléchargements](https://github.com/nmg06/rfs-flightdeck/releases/tag/flightdeck-0.4.4),
-avec un ZIP Windows et une APK Android, sans compte GitHub nécessaire.
-Les essais sur téléphone physique et la signature Android définitive restent à
-terminer. Le [guide d'installation](docs/INSTALLATION.md) indique comment mettre à
-jour en conservant vos données. Aucune version iPhone n'est livrée.
 
 Le Finder PC/Android permet de choisir plusieurs avions dès l'ouverture de la
 liste. Android propose une préparation par étapes, quatre rubriques principales
@@ -125,11 +132,15 @@ champs d'interface et la validation suivent le choix global français/anglais.
 
 ## Flight Finder local
 
-Le bouton **Flight Finder** ouvre la recherche sur la base externe
-`finder-data/aviation.sqlite`, à côté de l'exécutable. Une version issue des observations
-2026 Q2 est fournie séparément des bibliothèques du programme. Elle ne représente pas
-les horaires actuels. Certaines recherches Air India retournent zéro résultat faute
-de traces complètes suffisantes : le programme n'invente pas de correspondance.
+Le bouton **Flight Finder** ouvre la recherche sur la base locale
+`finder-data/aviation.sqlite`, incluse dans le paquet Windows. Android embarque
+la même base dans l’APK et la prépare au premier lancement, sans téléchargement.
+Le Finder propose les profils historiques enrichis, les routes récentes observées
+et le programme officiel Air India été 2026, valable jusqu’au 24 octobre 2026.
+Les observations ne sont pas des horaires actuels ; le programme saisonnier ne
+garantit pas qu’un vol soit effectivement opéré. Certains filtres ne donnent
+aucun résultat, notamment lorsque la durée est inconnue : aucune valeur manquante
+n’est inventée.
 
 Les critères sont facultatifs. **UTILISER CE VOL** remplit les valeurs connues du vol
 commun sans effacer les champs manuels inconnus ; vérifiez les anciennes pistes,
