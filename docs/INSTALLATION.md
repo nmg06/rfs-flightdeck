@@ -147,7 +147,7 @@ Internet sert aux couches cartographiques facultatives, sans compte ni suivi.
 
 | Problème | Que faire |
 |---|---|
-| Je ne trouve pas le téléchargement | Connectez-vous à GitHub, ouvrez une exécution verte, descendez jusqu'à Artifacts |
+| Je ne trouve pas le téléchargement | Utilisez les liens Windows ou Android en haut de ce guide, ou les fichiers APK/ZIP de la [préversion 0.4.4](https://github.com/nmg06/rfs-flightdeck/releases/tag/flightdeck-0.4.4). Aucun compte GitHub nécessaire ; ne choisissez pas Source code |
 | Windows ne trouve pas ses fichiers | Décompressez le paquet entier ; gardez _internal et finder-data à côté de l'EXE |
 | Le raccourci ouvre une vieille version | Créez un raccourci vers l'EXE du nouveau dossier |
 | Android refuse l'installation | Vérifiez Android 7, téléphone ARM64, espace libre et autorisation depuis Fichiers |

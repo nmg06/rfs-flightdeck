@@ -53,8 +53,8 @@ debug, une signature invalide ou une empreinte inattendue.
 
 Le workflow manuel **Flightdeck signed release candidate** construit Windows et
 Android et produit deux artefacts. Il ne publie aucune release et ne crée aucun tag.
-Il devient disponible dans Actions après intégration du workflow à la branche
-par défaut.
+Il est disponible dans Actions ; sa construction Android signée nécessite
+la configuration privée décrite ci-dessous.
 
 Dans l’environnement GitHub protégé `flightdeck-release`, définir les secrets
 `RFS_ANDROID_KEYSTORE_BASE64`, `RFS_ANDROID_STORE_PASSWORD`,
@@ -66,8 +66,14 @@ aucun artefact. Base64 est seulement un encodage, pas un chiffrement.
 Pour la future publication Flightdeck, utiliser un tag **`flightdeck-X.Y.Z`**.
 Les tags commençant par `v` déclenchent encore l’ancien workflow Windows
 `release.yml`, conservé pour les versions historiques. La recherche de mises à
-jour reconnaît les nouveaux tags Flightdeck et ignore les drafts/prereleases.
+jour reconnaît les nouveaux tags Flightdeck. La version 0.4.4 utilise le canal
+préversion : elle reconnaît les préversions publiées avec un fichier compatible,
+mais ignore toujours les brouillons. Un build configuré sur le canal stable
+ignore également les préversions.
 
-La clé de distribution définitive n’a pas encore été créée/configurée. La
-candidate 0.4.3 fournie pour les essais reste une APK debug. Aucun test de la
-chaîne de signature publique n’est revendiqué avant cette configuration.
+La [préversion 0.4.4 publiée](https://github.com/nmg06/rfs-flightdeck/releases/tag/flightdeck-0.4.4)
+contient une APK debug, signée avec la même clé de test que la précédente APK
+locale 0.4.3. Cela ne garantit pas la compatibilité avec les APK issues d’autres
+environnements de build. La clé de distribution définitive n’a pas encore été
+créée/configurée ; la chaîne de signature définitive et les essais sur téléphone
+physique restent à valider.
